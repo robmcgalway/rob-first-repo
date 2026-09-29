@@ -50,7 +50,7 @@ function km(a, b) {
 function drive(p) {
   const d = km(GALWAY, p) * 1.3;
   const speed = d < 40 ? 45 : d < 120 ? 65 : 78;
-  const mins = Math.round(d / speed * 60 / 5) * 5;
+  const mins = Math.max(5, Math.round(d / speed * 60 / 5) * 5);
   return { km: Math.round(d / 5) * 5, mins };
 }
 function fmtDrive(p) {

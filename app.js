@@ -189,10 +189,18 @@ function renderPlanned() {
 
 // ---------- add: paste ----------
 function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
+const clean = s => s.toLowerCase().replace(/[‘’`´]/g, "'").replace(/\s+/g, " ");
+// Longest names are matched first and removed from the text, so "Tramore Valley" doesn't also match "Tramore".
 function findMatches(text) {
-  const norm = " " + text.toLowerCase().replace(/\s+/g, " ") + " ";
-  return PARKRUNS.filter(p => [p.name, ...(p.alias || [])].some(n =>
-    new RegExp("(^|[^a-z])" + esc(n.toLowerCase()) + "([^a-z]|$)").test(norm)));
+  let norm = " " + clean(text) + " ";
+  const names = PARKRUNS.flatMap(p => [p.name, ...(p.alias || [])].map(n => ({ p, n: clean(n) })))
+    .sort((a, b) => b.n.length - a.n.length);
+  const found = new Set();
+  names.forEach(({ p, n }) => {
+    const re = new RegExp("(^|[^a-z])" + esc(n) + "(?![a-z])", "g");
+    if (re.test(norm)) { found.add(p); norm = norm.replace(re, "$1 "); }
+  });
+  return PARKRUNS.filter(p => found.has(p));
 }
 function renderMatches(found) {
   const box = $("matches"); box.replaceChildren();

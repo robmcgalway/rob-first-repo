@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>parkrun 32</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>parkrun 32</h1>
+    <div id="summary" aria-live="polite"></div>
+  </header>
+
+  <main>
+    <section id="tab-map" class="tab active">
+      <div id="map"></div>
+      <div class="legend">
+        <span><i class="dot done"></i>Done</span>
+        <span><i class="dot planned"></i>Planned</span>
+        <span><i class="dot todo"></i>Not done</span>
+      </div>
+    </section>
+
+    <section id="tab-counties" class="tab">
+      <h2>32 counties</h2>
+      <p class="note">A county is ticked once you've done one parkrun there.</p>
+      <div id="board"></div>
+    </section>
+
+    <section id="tab-todo" class="tab">
+      <h2>Counties still to do</h2>
+      <p class="note">Drive times from Galway city are rough estimates. Use the Directions link for the real thing.</p>
+      <div id="todo"></div>
+    </section>
+
+    <section id="tab-planned" class="tab">
+      <h2>Planned</h2>
+      <div id="planned"></div>
+    </section>
+
+    <section id="tab-add" class="tab">
+      <h2>Add parkruns you've done</h2>
+      <p class="note">On your parkrun results page, select the table of events, copy it, and paste it below. Nothing is sent anywhere.</p>
+      <textarea id="paste" rows="7" placeholder="Paste your results text here"></textarea>
+      <button id="find" class="btn primary">Find parkruns</button>
+      <div id="matches"></div>
+
+      <h3>Tick manually</h3>
+      <p class="note">If something wasn't matched, tick it here.</p>
+      <div id="manual"></div>
+
+      <h3>Backup</h3>
+      <p class="note">Your data lives only on this device. Copy the backup text to keep it safe, or to move it to another phone.</p>
+      <textarea id="backup" rows="3"></textarea>
+      <button id="restore" class="btn">Restore from text</button>
+    </section>
+  </main>
+
+  <nav>
+    <button data-tab="map" class="active">Map</button>
+    <button data-tab="counties">Counties</button>
+    <button data-tab="todo">To do</button>
+    <button data-tab="planned">Planned</button>
+    <button data-tab="add">Add</button>
+  </nav>
+
+  <dialog id="plan-dialog">
+    <form method="dialog">
+      <h3 id="plan-title"></h3>
+      <label>Date <input type="date" id="plan-date" required></label>
+      <div class="row">
+        <button value="cancel" class="btn" formnovalidate>Cancel</button>
+        <button value="ok" class="btn primary" id="plan-ok">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
